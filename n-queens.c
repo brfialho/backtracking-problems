@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 18:07:47 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 19:08:21 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:39:02 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	solver(char **matrix, int n, int row, int col)
 	}
 	matrix[row][col] = 'Q';
 	if (valid(matrix, n, row, col))
-		solver(matrix, n, row, col + 1);
+		solver(matrix, n, row + 1, 0);
 	matrix[row][col] = '.';
 	solver(matrix, n, row, col + 1);
 }
