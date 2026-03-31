@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 17:32:30 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 17:32:35 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:06:40 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	print_matrix(char (*matrix)[4])
 			write(1, &matrix[row][col], 1);
 		write(1, "\n", 1);
 	}
-	write(1, "\n", 1);
 }
 
 char	solver(char (*matrix)[4], char *rules, int row, int col)
@@ -128,12 +127,36 @@ char	solver(char (*matrix)[4], char *rules, int row, int col)
 	return (0);
 }
 
-int main(void)
+int	set_rules(char *argv, char *rules)
 {
-	char *rules = "4321"
-			   "1222"
-			   "4321"
-		       "1222";
+	int	len;
+
+	len = 0;
+	while (argv[len])
+	{
+		if (len > 31)
+			return (3);
+		if (len % 2 == 0 && !(argv[len] >= '1' && argv[len] <= '4'))
+			return (1);
+		else if (len % 2 && argv[len] != ' ')
+			return (2);
+		if (len % 2 == 0)
+			rules[len / 2] = argv[len];
+		len++;
+	}
+	if (len != 31)
+		return (4);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	if (argc != 2)
+		return (write(1, "Usage: ./skycraper \"rules\"\n", 27));
+	
+	char rules[17] = {0};
+	if (set_rules(argv[1], rules))
+		return (write(1, "Invalid ruleset\n", 16));
 	char matrix[4][4] = {
 	    {'0','0','0','0'},
 	    {'0','0','0','0'},
@@ -142,9 +165,15 @@ int main(void)
 	if (solver(matrix, rules, 0, 0))
 		print_matrix(matrix);
 	else
-		write(1, "DEU PAU AQUI\n", 13);
+		write(1, "No Solution possible\n", 22);
 }
 
+
+	// char *rules = "4321"
+	// 		   "1222"
+	// 		   "4321"
+	// 	       "1222";
+	
 	// unsolvable
 	// char *rules = "4321"
 	// 			"1222"
@@ -178,32 +207,3 @@ int main(void)
 	// 3241
 	// 2134
 	// 4312
-
-// char	solver(char (*matrix)[4], char *rules, int row, int col)
-// {
-// 	char	value;
-
-// 	value = '0';
-// 	if (row == 3 && col == 3)
-// 	{
-// 		while (++value < '5')
-// 		{
-// 			matrix[row][col] = value;
-// 			if (validate_position(rules, matrix, row, col))
-// 				return (1);
-// 		}
-// 		matrix[row][col] = '0';
-// 		return (0);	
-// 	}
-// 	while (++value < '5')
-// 	{
-// 		matrix[row][col] = value;
-// 		if (!validate_position(rules, matrix, row, col)
-// 		|| (col < 3 && !solver(matrix, rules, row, col + 1))
-// 		|| (col == 3 && !solver(matrix, rules, row + 1, 0)))
-// 			continue;
-// 		return (1);
-// 	}
-// 	matrix[row][col] = '0';
-// 	return (0);
-// }
