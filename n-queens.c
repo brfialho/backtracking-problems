@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 18:07:47 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 19:39:02 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/03/31 20:00:39 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,40 +108,23 @@ char	in_check_right_diag(char **matrix, int n, int row, int col)
 	return (0);
 }
 
-int	valid(char **matrix, int n, int row, int col)
-{
-	int	q_count;
-
-	if (in_check_line(matrix, n, row, col)
-		|| in_check_colum(matrix, n, row, col)
-		|| in_check_left_diag(matrix, n, row, col)
-		|| in_check_right_diag(matrix, n, row, col))
-		return (0);
-	q_count = 0;
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			if (matrix[i][j] == 'Q')
-				q_count++;
-	if (q_count == n)
-		print_matrix(matrix);
-	return (1);
-}
-
-
-void	solver(char **matrix, int n, int row, int col)
+void	solver(char **matrix, int n, int row)
 {
 	if (row == n)
-		return ;
-	if (col == n)
 	{
-		solver(matrix, n, row + 1, 0);
+		print_matrix(matrix);
 		return ;
 	}
-	matrix[row][col] = 'Q';
-	if (valid(matrix, n, row, col))
-		solver(matrix, n, row + 1, 0);
-	matrix[row][col] = '.';
-	solver(matrix, n, row, col + 1);
+	for (int col = 0; col < n; col++)
+	{
+		matrix[row][col] = 'Q';
+		if (!(in_check_line(matrix, n, row, col)
+		|| in_check_colum(matrix, n, row, col)
+		|| in_check_left_diag(matrix, n, row, col)
+		|| in_check_right_diag(matrix, n, row, col)))
+			solver(matrix, n, row + 1);
+		matrix[row][col] = '.';
+	}
 }
 
 int main(int argc, char **argv)
@@ -162,7 +145,7 @@ int main(int argc, char **argv)
 	matrix = get_matrix(n);
 	if (!matrix)
 		return (3);
-	solver(matrix, n, 0, 0);
+	solver(matrix, n, 0);
 
 	for (int i = 0; i < n; i++)
 		free(matrix[i]);
