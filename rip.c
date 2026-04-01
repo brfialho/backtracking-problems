@@ -6,12 +6,31 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/01 17:35:39 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/01 17:55:11 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
+
+int	count_pairs(char *s)
+{
+	int	pairs = 0;
+	int open = 0;
+
+	while (*s)
+	{
+		if (*s == '(')
+			open++;
+		else if (*s == ')' && open)
+		{
+			open--;
+			pairs++;
+		}
+		s++;
+	}
+	return (pairs);
+}
 
 char	count_min_parenthesis(char *s)
 {
@@ -20,15 +39,13 @@ char	count_min_parenthesis(char *s)
 
 	while (*s)
 	{
-		if (!(*s == '(' || *s == ')'))
-			return (0);
-		else if (*s == '(')
+		if (*s == '(')
 			open++;
 		else if (*s == ')')
 			close++;
 		s++;
 	}
-	return ((open < close) * open + (close < open) * close);
+	return ((open <= close) * open + (close < open) * close);
 }
 
 char	is_balanced(char *s)
@@ -69,6 +86,7 @@ void	solver(char *s, int min, int index)
 		solver(s, min, index + 1);
 		s[i] = c;
 	}
+	(void)min;
 }
 
 int main(int argc, char **argv)
@@ -76,14 +94,15 @@ int main(int argc, char **argv)
 	if (argc != 2 || !argv[1][0])
 		return (1);
 
-	if (is_balanced(argv[1]))
-		return (puts(argv[1]));
+	// if (is_balanced(argv[1]))
+	// 	return (puts(argv[1]));
 
 	char	s[10000] = {0};
 	int i = -1;
 	while (argv[1][++i])
 		s[i] = argv[1][i];
 
-	printf("MIN: %d\n", count_min_parenthesis(s));
-	solver(s, count_min_parenthesis(s), 0);
+	printf("PAIRS: %d\n", count_pairs(s));
+	// printf("MIN: %d\n", count_min_parenthesis(s));
+	// solver(s, count_min_parenthesis(s), 0);
 }
