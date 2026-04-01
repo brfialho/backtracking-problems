@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/01 16:53:27 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/01 17:35:39 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ char	count_min_parenthesis(char *s)
 			close++;
 		s++;
 	}
-	if (open - close == 0)
-		return (0);
 	return ((open < close) * open + (close < open) * close);
 }
 
-char	is_balanced(char *s, int min)
+char	is_balanced(char *s)
 {
 	int		open;
 	int		close;
@@ -50,7 +48,7 @@ char	is_balanced(char *s, int min)
 			return (0);
 		s++;
 	}
-	return ((open - close) == 0 && open == min);
+	return ((open - close) == 0);
 }
 
 void	solver(char *s, int min, int index)
@@ -66,7 +64,7 @@ void	solver(char *s, int min, int index)
 	{
 		c = s[i];
 		s[i] = ' ';
-		if (is_balanced(s, min))
+		if (is_balanced(s))
 			puts(s);
 		solver(s, min, index + 1);
 		s[i] = c;
@@ -78,17 +76,14 @@ int main(int argc, char **argv)
 	if (argc != 2 || !argv[1][0])
 		return (1);
 
-	int	min_parenthesis = count_min_parenthesis(argv[1]);
-	if (!min_parenthesis)
-		return (2);
+	if (is_balanced(argv[1]))
+		return (puts(argv[1]));
 
 	char	s[10000] = {0};
-
 	int i = -1;
 	while (argv[1][++i])
 		s[i] = argv[1][i];
 
-
-	printf("MIN: %d\n", min_parenthesis);
-	solver(s, min_parenthesis, 0);
+	printf("MIN: %d\n", count_min_parenthesis(s));
+	solver(s, count_min_parenthesis(s), 0);
 }
