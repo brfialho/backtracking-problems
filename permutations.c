@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 20:47:04 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 22:26:06 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/03/31 22:31:00 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ void	set_letters(char *string, char *letters)
 	*l = 0;
 }
 
-char	has_duplicate(char *s)
+char	has_duplicate(char *s, int len)
 {
 	char	alpha[27] = {0};
 	int		i;
 
-	i = -1;
-	while (s[++i])
+	i = 0;
+	while (s[i] && i < len)
 	{
 		if (alpha[(int)s[i] - 'a'])
 			return (1);
-		alpha[(int)s[i] - 'a'] = 1;
+		alpha[(int)s[i++] - 'a'] = 1;
 	}
 	return (0);
 }
@@ -73,9 +73,10 @@ void	solver(char *s, char *letters, int index)
 	while (letters[++i])
 	{
 		s[index] = letters[i];
-		if (!has_duplicate(s) && !letters[index + 1])
+		if (!has_duplicate(s, 27) && !letters[index + 1])
 			puts(s);
-		solver(s, letters, index + 1);
+		if (!has_duplicate(s, index + 1))
+			solver(s, letters, index + 1);
 	}
 }
 
