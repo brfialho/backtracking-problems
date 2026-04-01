@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 20:47:04 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 22:31:00 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:56:15 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,22 @@ void	set_letters(char *string, char *letters)
 	*l = 0;
 }
 
-char	has_duplicate(char *s, int len)
-{
-	char	alpha[27] = {0};
-	int		i;
-
-	i = 0;
-	while (s[i] && i < len)
-	{
-		if (alpha[(int)s[i] - 'a'])
-			return (1);
-		alpha[(int)s[i++] - 'a'] = 1;
-	}
-	return (0);
-}
-
-void	solver(char *s, char *letters, int index)
+void	solver(char *s, char *letters, char *used, int index)
 {
 	if (!letters[index])
+	{
+		puts(s);
 		return ;
-
+	}
 	int i = -1;
 	while (letters[++i])
 	{
+		if (used[(int)letters[i]])
+			continue ;
+		used[(int)letters[i]] = 1;
 		s[index] = letters[i];
-		if (!has_duplicate(s, 27) && !letters[index + 1])
-			puts(s);
-		if (!has_duplicate(s, index + 1))
-			solver(s, letters, index + 1);
+		solver(s, letters, used, index + 1);
+		used[(int)s[index]] = 0;
 	}
 }
 
@@ -86,6 +74,7 @@ int main(int argc, char **argv)
 		return (1);
 
 	char 	letters[256] = {0};
+	char	used[256] = {0};
 	char	*s;
 
 	s = get_string(argv[1]);
@@ -93,6 +82,6 @@ int main(int argc, char **argv)
 		return (2);
 	
 	set_letters(s, letters);
-	solver(s, letters, 0);		
+	solver(s, letters, used, 0);		
 	free(s);
 }
