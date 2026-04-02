@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/02 17:28:40 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/02 18:32:10 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,18 @@ char	is_balanced(char *s)
 	return ((open - close) == 0);
 }
 
-void	solver(char *s, int pairs, int index)
+void	solver(char *s, int pairs, int index, int level)
 {
 	if (!s[index])
 		return ;
+	printf ("%*sPATH: '%s' LVL: %d\n", (level * 8), "", s, index);
+	if (is_balanced(s))
+	{
+		// puts(s);
+		printf ("%*sSOL: '%s' \n", level * 8, "", s);
+		return ;
+	}
+
 
 	int i = index - 1;
 	while (s[++i])
@@ -64,13 +72,14 @@ void	solver(char *s, int pairs, int index)
 			continue;
 		char c = s[i];
 		s[i] = ' ';
-		if (is_balanced(s) && count_pairs(s) == pairs)
-			puts(s);
-		else if (count_pairs(s) == pairs)
-			solver(s, pairs, index + 1);
+		printf ("%*s+ TRY: '%s' \n", level * 8, "", s);
+		if (count_pairs(s) == pairs)
+			solver(s, pairs, index + 1, level + 1);
+		printf ("%*s- CUT: '%s' \n", level * 8, "", s);
 		s[i] = c;
 	}
 }
+
 
 int main(int argc, char **argv)
 {
@@ -86,5 +95,5 @@ int main(int argc, char **argv)
 		s[i] = argv[1][i];
 
 	// printf("PAIRS: %d\n", count_pairs(s));
-	solver(s, count_pairs(s), 0);
+	solver(s, count_pairs(s), 0, 0);
 }
