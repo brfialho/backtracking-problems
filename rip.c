@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/02 18:32:10 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/02 19:02:04 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	solver(char *s, int pairs, int index, int level)
 {
 	if (!s[index])
 		return ;
-	printf ("%*sPATH: '%s' LVL: %d\n", (level * 8), "", s, index);
+	printf ("%*sPATH: '%s' INDEX: %d LVL: %d\n", (level * 8), "", s, index, level);
 	if (is_balanced(s))
 	{
 		// puts(s);
-		printf ("%*sSOL: '%s' \n", level * 8, "", s);
+		printf ("%*sSOL: '%s' <-------------------------------\n", level * 8, "", s);
 		return ;
 	}
 
@@ -68,11 +68,11 @@ void	solver(char *s, int pairs, int index, int level)
 	int i = index - 1;
 	while (s[++i])
 	{
-		if (s[i] == ' ')
+		if (s[i] == '_')
 			continue;
 		char c = s[i];
-		s[i] = ' ';
-		printf ("%*s+ TRY: '%s' \n", level * 8, "", s);
+		s[i] = '_';
+		printf ("%*s+ TRY: '%s' [%d] \n", level * 8, "", s, i);
 		if (count_pairs(s) == pairs)
 			solver(s, pairs, index + 1, level + 1);
 		printf ("%*s- CUT: '%s' \n", level * 8, "", s);
