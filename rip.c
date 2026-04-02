@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/01 18:00:04 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/02 17:28:40 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,17 @@ void	solver(char *s, int pairs, int index)
 {
 	if (!s[index])
 		return ;
-	if (is_balanced(s))
-	{
-		puts(s);
-		return ;
-	}
 
-	int		i;
-	char	c;
-
-	i = index - 1;
+	int i = index - 1;
 	while (s[++i])
 	{
-		c = s[i];
+		if (s[i] == ' ')
+			continue;
+		char c = s[i];
 		s[i] = ' ';
-		if (count_pairs(s) >= pairs)
+		if (is_balanced(s) && count_pairs(s) == pairs)
+			puts(s);
+		else if (count_pairs(s) == pairs)
 			solver(s, pairs, index + 1);
 		s[i] = c;
 	}
