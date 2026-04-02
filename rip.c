@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:04:17 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/02 20:47:57 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/02 20:49:07 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,16 @@ void	solver(char *s, int pairs, int index, int level)
 {
 	if (is_balanced(s))
 	{ 
-		// puts(s);
-		printf("%*sSOL: '%s' <-------------------------------\n", level * 8, "", s);
+		puts(s);
 		return ;
 	}
-	printf ("%*sPATH: '%s' INDEX: %d LVL: %d\n", (level * 8), "", s, index, level);
-	// int old_index = index;
 	while (s[index])
 	{
 		char c = s[index];
 		s[index] = ' ';
-		printf ("%*s+ TRY: '%s' [%d] \n", level * 8, "", s, index);
 		if (count_pairs(s) == pairs)
 			solver(s, pairs, index + 1, level + 1);
 		s[index] = c;
-		printf ("%*s- CUT: '%s' \n", level * 8, "", s);
 		index++;
 	}
 }
