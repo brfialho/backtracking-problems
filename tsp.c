@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:53:36 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/03 21:03:50 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/03 21:27:22 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	solve(t_city *cities, int *path, int n, int pos, float *min)
 {
 	if (pos == n)
 		return;
-	int	i = pos;
+	int	i = 0;
 	while (++i < n)
 	{
 		if (i == pos)
