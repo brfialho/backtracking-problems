@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:53:36 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/03 21:27:22 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/03 22:14:22 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,19 @@ void	swap(int *a, int *b)
 void	solve(t_city *cities, int *path, int n, int pos, float *min)
 {
 	if (pos == n)
-		return;
-	int	i = 0;
-	while (++i < n)
 	{
-		if (i == pos)
-			continue;
-		swap(&path[pos], &path[i]);
 		float new_min = total_distance(cities, path, n);
 		if (*min > new_min)
 			*min = new_min;
+		return;
+	}
+	int	i = pos;
+	while (i < n)
+	{
+		swap(&path[pos], &path[i]);
 		solve(cities, path, n, pos + 1, min);
 		swap(&path[pos], &path[i]);
+		i++;
 	}
 }
 
