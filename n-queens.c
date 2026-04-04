@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 18:07:47 by brfialho          #+#    #+#             */
-/*   Updated: 2026/03/31 20:00:39 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/03 21:10:10 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ void	print_matrix(char **matrix)
 	while (matrix[++row])
 		printf("%s\n", matrix[row]);
 	printf("\n");
+}
+
+void	print_resullt(char **matrix, int n)
+{
+	int	col = -1;
+
+	while (++col < n)
+	{
+		int row = -1;
+		while (++row < n)
+		{
+			if (matrix[row][col] == 'Q')
+				printf("%d", row);
+		}
+		if (col < n - 1)
+			printf(" ");
+	}
+	printf ("\n");
 }
 
 char	in_check_line(char **matrix, int n, int row, int col)
@@ -112,7 +130,8 @@ void	solver(char **matrix, int n, int row)
 {
 	if (row == n)
 	{
-		print_matrix(matrix);
+		// print_matrix(matrix);
+		print_resullt(matrix, n);
 		return ;
 	}
 	for (int col = 0; col < n; col++)
