@@ -6,7 +6,7 @@
 /*   By: brfialho <brfialho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:53:36 by brfialho          #+#    #+#             */
-/*   Updated: 2026/04/03 20:43:36 by brfialho         ###   ########.fr       */
+/*   Updated: 2026/04/03 21:03:50 by brfialho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ typedef struct s_city
 	float y;
 }	t_city;
 
-/*
-** You must implement this function
-** It should return the Euclidean distance between 2 cities
-*/
 float	distance(t_city a, t_city b)
 {
 	float x = b.x - a.x;
@@ -33,11 +29,6 @@ float	distance(t_city a, t_city b)
 	return (sqrtf((x * x) + (y * y)));
 }
 
-/*
-** You must implement this function
-** It should compute total distance of the path
-** including the return to the starting city
-*/
 float	total_distance(t_city *cities, int *path, int n)
 {
 	float	full_distance;
@@ -50,11 +41,6 @@ float	total_distance(t_city *cities, int *path, int n)
 	return (full_distance);
 }
 
-/*
-** You must implement this function
-** Use backtracking to try all permutations
-*/
-
 void	swap(int *a, int *b)
 {
 	int tmp = *a;
@@ -66,7 +52,7 @@ void	solve(t_city *cities, int *path, int n, int pos, float *min)
 {
 	if (pos == n)
 		return;
-	int	i = 0;
+	int	i = pos;
 	while (++i < n)
 	{
 		if (i == pos)
@@ -85,19 +71,12 @@ int	main(void)
 	t_city	cities[11];
 	int		n = 0;
 
-	// Read input from stdin
 	while (n < 11 && fscanf(stdin, "%f, %f", &cities[n].x, &cities[n].y) == 2)
 		n++;
 
-	// If less than 2 cities → distance = 0
 	if (n < 2)
-	{
-		printf("0.00\n");
-		return (0);
-	}
+		return (printf("0.00\n"), 0);
 
-
-	// Initialize path: [0,1,2,...]
 	int path[11];
 	for (int i = 0; i < n; i++)
 		path[i] = i;
@@ -106,17 +85,7 @@ int	main(void)
 		return (printf("%.2f\n", total_distance(cities, path, n)), 0);
 
 	float min = FLT_MAX;
-
-	/*
-	** Optimization:
-	** Fix first city → start from pos = 1
-	*/
 	solve(cities, path, n, 1, &min);
-
 	printf("%.2f\n", min);
-	// printf("%.2f\n", distance(cities[0], cities[1]));
-	// printf("%.2f\n", distance(cities[1], cities[2]));
-	// printf("%.2f\n", distance(cities[0], cities[2]));
-	// printf("TOTAL: %.2f\n", total_distance(cities, path, n));
 	return (0);
 }
